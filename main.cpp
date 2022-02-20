@@ -8,7 +8,8 @@
 #include<fstream>
 using namespace std;
 
-int**readInAdjMatrix(string fileName);
+int**readInAdjMatrix(string fileName, int&n);
+void printAdjMatrix(int**adjMatrix);
 
 typedef struct Node{
     int val;
@@ -27,6 +28,7 @@ int main(int argc, char*argv[]){
 
     string filename;
     int sourceNode;
+    int n;
 
     cout << "Number of arguments entered: " << argc << endl;
     for (int i=0;i<argc;i++){
@@ -40,24 +42,22 @@ int main(int argc, char*argv[]){
         sourceNode = stoi(sourceNodeString);
         cout<<"sourceNode input value: "<<sourceNode;
 
+        //pass the name to populate the adj matrix
+        //use this adj matrix in bfs and print output
+        int**adjMatrix;
+        adjMatrix=readInAdjMatrix(filename, n);
+        cout<<n;
+        //bfs(adjMatrix)
+        //print result^^^
+
     }else if (argc==2){
         cout<<"Please append both a filename and a source node value in the format: ./main filename.txt #"<<endl;
         return 0;
     }
-
-
-
-
-
-
-
-
-
-
-    readInAdjMatrix("graph1.txt");
+    //readInAdjMatrix("graph1.txt");
 }
 
-int**readInAdjMatrix(string fileName){
+int**readInAdjMatrix(string fileName, int&n){
     std::ifstream ifs;
     ifs.open(fileName, ios::in|ios::binary);
     if(!ifs){
@@ -65,8 +65,8 @@ int**readInAdjMatrix(string fileName){
     }
     string rowData;
     if(ifs.is_open()){
-
-        int n=0;
+//
+        n=0;
         while(getline(ifs, rowData)){
             n++;
         }
@@ -79,6 +79,9 @@ int**readInAdjMatrix(string fileName){
         return NULL;
     }
     return NULL;
+}
+
+void printAdjMatrix(int**adjMatrix){
 
 }
 
