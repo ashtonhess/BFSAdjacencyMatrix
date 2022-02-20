@@ -23,6 +23,37 @@ typedef struct Node{
 
 
 int main(int argc, char*argv[]){
+
+
+    string filename;
+    int sourceNode;
+
+    cout << "Number of arguments entered: " << argc << endl;
+    for (int i=0;i<argc;i++){
+        cout << "Argument "<< i << ": " << argv[i] << endl;
+    }
+    if (argc == 3){
+        //if correct amount of args were passed through the command line
+        filename=argv[1];
+        cout<<"filename input value: "<<filename<<endl;
+        string sourceNodeString = argv[2];
+        sourceNode = stoi(sourceNodeString);
+        cout<<"sourceNode input value: "<<sourceNode;
+
+    }else if (argc==2){
+        cout<<"Please append both a filename and a source node value in the format: ./main filename.txt #"<<endl;
+        return 0;
+    }
+
+
+
+
+
+
+
+
+
+
     readInAdjMatrix("graph1.txt");
 }
 
