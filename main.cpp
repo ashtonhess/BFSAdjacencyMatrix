@@ -23,7 +23,7 @@ typedef struct Node{
 
 
 int main(int argc, char*argv[]){
-    //readInAdjMatrix();
+    readInAdjMatrix("graph1.txt");
 }
 
 int**readInAdjMatrix(string fileName){
