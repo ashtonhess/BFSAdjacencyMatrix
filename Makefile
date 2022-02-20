@@ -4,12 +4,12 @@ PROGS:= \
 
 .PHONY : all
 all : $(PROGS)
-main: main.o StudentList.o
+main: main.o
 	$(CC) $^ -o $@
 main.o: main.cpp
 	$(CC) -c main.cpp
-StudentList.o: StudentList.cpp
-	$(CC) -c StudentList.cpp
+#StudentList.o: StudentList.cpp
+#	$(CC) -c StudentList.cpp
 .PHONY : clean
 clean:
 	rm *.o main
