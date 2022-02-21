@@ -2,43 +2,27 @@
 // Created by Ashton Hess on 2/19/22.
 //
 #include <iostream>
+using namespace std;
 #include <vector>
-#include<queue>
 #include<string>
 #include<fstream>
 #include<list>
+#include<chrono>
+using namespace std::chrono;
 
-using namespace std;
-
-//vector<vector<int> > createVectorAdjMatrix(int**intAdjMatrix);
 int**readInAdjMatrix(string fileName, int&n);
 void printAdjMatrix(int**adjMatrix, int n);
 void bfs(int start, int n, int**adjMatrix);
 
-typedef struct Node{
-    int val;
-    int state;
-}node;
-
-//void addEdge(int x, int y, vector<vector<int> > adj){
-//    adj[x][y]=1;
-//    adj[y][x]=1;
-//}
-
-
-
 int main(int argc, char*argv[]){
-
-
     string filename;
     int sourceNode;
     int n;
-    //vector<vector<int> > adj;
-
-    cout << "Number of arguments entered: " << argc << endl;
-    for (int i=0;i<argc;i++){
-        cout << "Argument "<< i << ": " << argv[i] << endl;
-    }
+//    //Uncomment below if you want args entered to be printed.
+    //cout << "Number of arguments entered: " << argc << endl;
+    //for (int i=0;i<argc;i++){
+    //    cout << "Argument "<< i << ": " << argv[i] << endl;
+    //}
     if (argc == 3){
         //if correct amount of args were passed through the command line
         filename=argv[1];
@@ -46,52 +30,49 @@ int main(int argc, char*argv[]){
         string sourceNodeString = argv[2];
         sourceNode = stoi(sourceNodeString);
         cout<<"sourceNode input value: "<<sourceNode<<endl;
-
-        //pass the name to populate the adj matrix
-        //use this adj matrix in bfs and print output
         int**adjMatrix;
-        adjMatrix=readInAdjMatrix(filename, n);
-        cout<<"main(): Value of n: "<<n<<endl;
-        printAdjMatrix(adjMatrix, n);
         int start = sourceNode;
+        auto startTime = high_resolution_clock::now();
+        adjMatrix=readInAdjMatrix(filename, n);
         bfs(start-1, n, adjMatrix);
+        auto stopTime = high_resolution_clock::now();
+        auto duration = duration_cast<microseconds>(stopTime-startTime);
+        //prints time in microseconds. Had to get microseconds first and then convert to milliseconds because
+        // duration.count() would round less than 1ms to 0ms.
+        //cout<<"Execution Time: "<<duration.count()<<" microseconds."<<endl;
+        double durationMicroSecDouble = duration.count();
+        double durationMilliSecDouble = durationMicroSecDouble/1000;
+        cout<<"Execution Time: "<<durationMilliSecDouble<<" milliseconds"<<endl;
 
+//        //Uncomment to print Adjacency Matrix that was inputted.
+        //printAdjMatrix(adjMatrix, n);
     }else if (argc==2){
         cout<<"Please append both a filename and a source node value in the format: ./main filename.txt #"<<endl;
-        return 0;
+    }else{
+        cout<<"Please append both a filename and a source node value in the format: ./main filename.txt #"<<endl;
     }
-    //readInAdjMatrix("graph1.txt");
+    return 0;
 }
 
 void bfs(int start, int n, int**adjMatrix) {
-
-    cout<<"ACTIVE: bfs()"<<endl;
-
+    cout<<"BFS Result:"<<endl;
     int visited[n];
     int queue[n];
     for (int i = 0; i < n; ++i) {
         visited[i]=0;
     }
     vector<int> q;
-
     q.push_back(start);
-
     visited[start]=1;
-
     int vis;
     int level[n];
     level[start]=1;
     while(!q.empty()){
-
         vis = q[0];
         start = q[0];
         cout<<"Level: "<<level[start]-1<<"\t";
         cout<<"Node: "<<vis+1<<" "<<endl;
         q.erase(q.begin());
-//        if(q.empty()){
-//            cout<<endl;
-//        }
-
         for (int i = 0; i < n; ++i) {
             if(adjMatrix[vis][i]==1 && (visited[i]==0)){
                 q.push_back(i);
@@ -103,7 +84,7 @@ void bfs(int start, int n, int**adjMatrix) {
 }
 
 int**readInAdjMatrix(string fileName, int&n){
-    cout<<"ACTIVE: readInAdjMatrix()"<<endl;
+    cout<<"Reading in adjacency matrix from file: "<<fileName<<endl;
     std::ifstream ifs;
     ifs.open(fileName, ios::in|ios::binary);
     if(!ifs){
@@ -116,11 +97,9 @@ int**readInAdjMatrix(string fileName, int&n){
         while(getline(ifs, rowData)){
             n++;
         }
-        cout<<"readAdjMatrix(): Value of n: "<<n<<endl;
-
+        //cout<<"readAdjMatrix(): Value of n: "<<n<<endl;
         ifs.clear();
         ifs.seekg(0);
-
         int nums[n*n];
         int counter=0;
         while(getline(ifs, rowData, ' ')){
@@ -129,7 +108,6 @@ int**readInAdjMatrix(string fileName, int&n){
             //cout<<"nums["<<counter<<"]: "<<nums[counter]<<endl;
             counter++;
         }
-
         int**returnPtr=0;
         returnPtr = new int*[n];
         int counter2 = 0;
@@ -140,22 +118,19 @@ int**readInAdjMatrix(string fileName, int&n){
                 counter2++;
             }
         }
-
         return returnPtr;
     }
     return NULL;
 }
 
 void printAdjMatrix(int**adjMatrix, int n){
-    cout<<"ACTIVE: printAdjMatrix()"<<endl;
-
+    cout<<"Adjacency Matrix:"<<endl;
     for (int i = 0; i < n; ++i) {
         for (int j = 0; j < n; ++j) {
             cout<<adjMatrix[i][j]<<" ";
         }
         cout<<endl;
     }
-
 }
 
 
