@@ -53,14 +53,8 @@ int main(int argc, char*argv[]){
         adjMatrix=readInAdjMatrix(filename, n);
         cout<<"main(): Value of n: "<<n<<endl;
         printAdjMatrix(adjMatrix, n);
-
-        //adj = vector<vector<int> >(n, vector<int>(n,0));
-
-
-        bfs(2, n, adjMatrix);
-        //print result^^^
-
-
+        int start = sourceNode;
+        bfs(start-1, n, adjMatrix);
 
     }else if (argc==2){
         cout<<"Please append both a filename and a source node value in the format: ./main filename.txt #"<<endl;
@@ -85,67 +79,28 @@ void bfs(int start, int n, int**adjMatrix) {
     visited[start]=1;
 
     int vis;
+    int level[n];
+    level[start]=1;
     while(!q.empty()){
+
         vis = q[0];
-        cout<<vis+1<<" ";
+        start = q[0];
+        cout<<"Level: "<<level[start]-1<<"\t";
+        cout<<"Node: "<<vis+1<<" "<<endl;
         q.erase(q.begin());
+//        if(q.empty()){
+//            cout<<endl;
+//        }
 
         for (int i = 0; i < n; ++i) {
-            if(adjMatrix[vis][i]==1 && (!visited[i])){
+            if(adjMatrix[vis][i]==1 && (visited[i]==0)){
                 q.push_back(i);
-                visited[i]=true;
+                visited[i]=1;
+                level[i]=level[start]+1;
             }
         }
     }
-
-
-
-
 }
-
-
-
-
-
-
-//    int visited[n];
-//    for (int i = 0; i < n; ++i) {
-//        visited[i]=0;
-//    }
-//
-//    list<int> queue;
-//    visited[start] = 1;
-//    queue.push_back(start);
-//
-//    list<int>::iterator i;
-//
-//    while(!queue.empty()){
-//        int currV = queue.front();
-//        cout<<"Visited"<<currV<<" ";
-//        queue.pop_front();
-//
-//    }
-//
-//    int q[n];
-//    int r =-1;
-//
-//    visited[start]=1;
-//
-//
-//    for (int i = 0; i < n; ++i) {
-//        if (adjMatrix[start][i] && !visited[i]){
-//            q[++r]=i;
-//
-//        }
-//    }
-
-
-
-//vector<vector<int> > createVectorAdjMatrix(int**intAdjMatrix){
-//
-//
-//
-//}
 
 int**readInAdjMatrix(string fileName, int&n){
     cout<<"ACTIVE: readInAdjMatrix()"<<endl;
@@ -175,9 +130,6 @@ int**readInAdjMatrix(string fileName, int&n){
             counter++;
         }
 
-
-
-
         int**returnPtr=0;
         returnPtr = new int*[n];
         int counter2 = 0;
@@ -188,18 +140,7 @@ int**readInAdjMatrix(string fileName, int&n){
                 counter2++;
             }
         }
-//        int i=0;
-//        int j=0;
-//        while(getline(ifs, rowData, ' ')){
-//            if (j<n){
-//
-//                returnPtr[n][j]= stoi(rowData);
-//                j++;
-//            }else {
-//                returnPtr[n]=new int[n];
-//                i++;
-//            }
-//        }
+
         return returnPtr;
     }
     return NULL;
@@ -242,7 +183,61 @@ void printAdjMatrix(int**adjMatrix, int n){
 
 
 
+//        int i=0;
+//        int j=0;
+//        while(getline(ifs, rowData, ' ')){
+//            if (j<n){
 //
+//                returnPtr[n][j]= stoi(rowData);
+//                j++;
+//            }else {
+//                returnPtr[n]=new int[n];
+//                i++;
+//            }
+//        }
+
+
+
+//    int visited[n];
+//    for (int i = 0; i < n; ++i) {
+//        visited[i]=0;
+//    }
+//
+//    list<int> queue;
+//    visited[start] = 1;
+//    queue.push_back(start);
+//
+//    list<int>::iterator i;
+//
+//    while(!queue.empty()){
+//        int currV = queue.front();
+//        cout<<"Visited"<<currV<<" ";
+//        queue.pop_front();
+//
+//    }
+//
+//    int q[n];
+//    int r =-1;
+//
+//    visited[start]=1;
+//
+//
+//    for (int i = 0; i < n; ++i) {
+//        if (adjMatrix[start][i] && !visited[i]){
+//            q[++r]=i;
+//
+//        }
+//    }
+
+
+
+//vector<vector<int> > createVectorAdjMatrix(int**intAdjMatrix){
+//
+//
+//
+//}
+
+
 
 //    int n = 10;
 //
@@ -272,14 +267,6 @@ void printAdjMatrix(int**adjMatrix, int n){
 //    cout<<"end";
 //
 //    return 0;
-
-
-
-
-
-
-
-
 
 
 
