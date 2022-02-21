@@ -6,11 +6,14 @@
 #include<queue>
 #include<string>
 #include<fstream>
+#include<list>
 
 using namespace std;
 
+//vector<vector<int> > createVectorAdjMatrix(int**intAdjMatrix);
 int**readInAdjMatrix(string fileName, int&n);
 void printAdjMatrix(int**adjMatrix, int n);
+void bfs(int start, int n, int**adjMatrix);
 
 typedef struct Node{
     int val;
@@ -30,6 +33,7 @@ int main(int argc, char*argv[]){
     string filename;
     int sourceNode;
     int n;
+    //vector<vector<int> > adj;
 
     cout << "Number of arguments entered: " << argc << endl;
     for (int i=0;i<argc;i++){
@@ -49,7 +53,11 @@ int main(int argc, char*argv[]){
         adjMatrix=readInAdjMatrix(filename, n);
         cout<<"main(): Value of n: "<<n<<endl;
         printAdjMatrix(adjMatrix, n);
-        //bfs(adjMatrix)
+
+        //adj = vector<vector<int> >(n, vector<int>(n,0));
+
+
+        bfs(2, n, adjMatrix);
         //print result^^^
 
 
@@ -60,6 +68,84 @@ int main(int argc, char*argv[]){
     }
     //readInAdjMatrix("graph1.txt");
 }
+
+void bfs(int start, int n, int**adjMatrix) {
+
+    cout<<"ACTIVE: bfs()"<<endl;
+
+    int visited[n];
+    int queue[n];
+    for (int i = 0; i < n; ++i) {
+        visited[i]=0;
+    }
+    vector<int> q;
+
+    q.push_back(start);
+
+    visited[start]=1;
+
+    int vis;
+    while(!q.empty()){
+        vis = q[0];
+        cout<<vis+1<<" ";
+        q.erase(q.begin());
+
+        for (int i = 0; i < n; ++i) {
+            if(adjMatrix[vis][i]==1 && (!visited[i])){
+                q.push_back(i);
+                visited[i]=true;
+            }
+        }
+    }
+
+
+
+
+}
+
+
+
+
+
+
+//    int visited[n];
+//    for (int i = 0; i < n; ++i) {
+//        visited[i]=0;
+//    }
+//
+//    list<int> queue;
+//    visited[start] = 1;
+//    queue.push_back(start);
+//
+//    list<int>::iterator i;
+//
+//    while(!queue.empty()){
+//        int currV = queue.front();
+//        cout<<"Visited"<<currV<<" ";
+//        queue.pop_front();
+//
+//    }
+//
+//    int q[n];
+//    int r =-1;
+//
+//    visited[start]=1;
+//
+//
+//    for (int i = 0; i < n; ++i) {
+//        if (adjMatrix[start][i] && !visited[i]){
+//            q[++r]=i;
+//
+//        }
+//    }
+
+
+
+//vector<vector<int> > createVectorAdjMatrix(int**intAdjMatrix){
+//
+//
+//
+//}
 
 int**readInAdjMatrix(string fileName, int&n){
     cout<<"ACTIVE: readInAdjMatrix()"<<endl;
